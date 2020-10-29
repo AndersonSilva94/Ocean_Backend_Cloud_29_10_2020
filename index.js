@@ -1,13 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
-const ObjectId = mongodb.ObjectId;
+const ObjectID = mongodb.ObjectID;
 
 (async () => {
+    
+
 
 const connectionString = 'mongodb://localhost:27017';
-
-console.info('Conectando ao banco de dados MongoDB...');
+console.info('Conectando ao banco de dados...');
 
 const options = {
     useUnifiedTopology: true
@@ -19,7 +20,7 @@ console.info('MongoDB conectado com sucesso!');
 
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Precisamos avisar o Express para utilizar o body-parser
 // Assim, ele saberá como transformar as informações no BODY da requisição
@@ -53,73 +54,72 @@ Descrição: Edita mensagem específica pelo ID
 Endpoint: [DELETE] /mensagem/{id}
 Descrição: Remove mensagem específica pelo ID
 */
-
+ 
 app.get('/', function (req, res) {
-  res.send('Hello World');
+  res.send('Hello World')
 });
-
-//const db = client.db('ocean_backend_27_10_2020');
-//const mensagens = db.collection('mensagens');
 /*
-// Read all
-app.get('/mensagem', async function (req, res) {
-    const findResult = await mensagens.find().toArray();
+const db = client.db('ocean_backend_27_10_2020');
+const mensagens = db.collection('mensagens')
 
+//Read All
+app.get('/mensagem', async function(req, res){
+    const findResult = await mensagens.find({}).toArray();
     res.send(findResult);
 });
 
-// Create
-app.post('/mensagem', async function (req, res) {
+//create
+app.post('/mensagem', async function(req, res){
     const texto = req.body.texto;
 
     const mensagem = {
         texto
-    };
+    }
 
-    const resultado = await mensagens.insertOne(mensagem);
-
+    const resultado = await mensagens.insertOne(mensagem)
     const objetoInserido = resultado.ops[0];
 
     res.send(objetoInserido);
+
 });
 
-// Read Single
-app.get('/mensagem/:id', async function (req, res) {
+//Read Single
+app.get('/mensagem/:id', async function(req, res){
     const id = req.params.id;
 
-    const mensagem = await mensagens.findOne({ _id: ObjectId(id) });
+    const mensagem = await mensagens.findOne({_id: ObjectID(id)})
 
     res.send(mensagem);
 });
 
-// Update
-app.put('/mensagem/:id', async function (req, res) {
+//Update
+app.put('/mensagem/:id', async function(req, res){
     const id = req.params.id;
 
     const mensagem = {
-        _id: ObjectId(id),
+        _id: ObjectID(id),
         ...req.body
     };
 
     await mensagens.updateOne(
-        { _id: ObjectId(id) },
-        { $set: mensagem }
+        { _id: ObjectID(id)},
+        {$set: mensagem}
     );
 
     res.send(mensagem);
 });
 
-// Delete
-app.delete('/mensagem/:id', async function (req, res) {
+//Delete
+app.delete('/mensagem/:id', async function(req, res){
     const id = req.params.id;
 
-    await mensagens.deleteOne({ _id: ObjectId(id) });
+    await mensagens.deleteOne({ _id: ObjectID(id) })
 
-    res.send(`A mensagem de ID ${id} foi removida com sucesso.`);
+    res.send(`A mensagem de ID '${id}', foi removida com sucesso.`);
 });
 */
-app.listen(port, function () {
-    console.info('App rodando em http://localhost:' + port);
+app.listen(port, function(){
+    console.info('App rodando em http://localhost: ' + port)
 });
 
 })();
